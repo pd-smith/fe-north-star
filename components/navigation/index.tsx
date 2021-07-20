@@ -7,10 +7,6 @@ const navLinks = [
     children: "Home",
     href: "/",
   },
-  {
-    children: "About",
-    href: "/about",
-  },
 ];
 export default function Navigation(): JSX.Element {
   return (
