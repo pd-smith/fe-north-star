@@ -38,7 +38,7 @@ jobs:
 
       - name: Zip deployment stage package
         run: zip -r artifact.zip *
-        working-directory: build
+        working-directory: out
 
       - name: Publish carrot-admin stage package
         uses: actions/upload-artifact@v2
@@ -53,7 +53,7 @@ jobs:
 
       - name: Zip deployment production package
         run: zip -r artifact.zip *
-        working-directory: build
+        working-directory: out
 
       - name: Publish carrot-admin production package
         uses: actions/upload-artifact@v2
