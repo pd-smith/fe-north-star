@@ -37,14 +37,14 @@ jobs:
         run: ENVIRONMENT=stage npm run build
 
       - name: Zip deployment stage package
-        run: zip -r artifact_stage.zip *
+        run: zip -r artifact.zip *
         working-directory: build
 
       - name: Publish carrot-admin stage package
         uses: actions/upload-artifact@v2
         with:
-          name: carrot-admin-${{ github.run_id }}
-          path: build/artifact_stage.zip
+          name: carrot-admin-${{ github.run_id }}-stage
+          path: build/artifact.zip
           
       - name: Create release build production
         env:
@@ -52,11 +52,11 @@ jobs:
         run: ENVIRONMENT=production npm run build
 
       - name: Zip deployment production package
-        run: zip -r artifact_production.zip *
+        run: zip -r artifact.zip *
         working-directory: build
 
       - name: Publish carrot-admin production package
         uses: actions/upload-artifact@v2
         with:
-          name: carrot-admin-${{ github.run_id }}
-          path: build/artifact_production.zip
+          name: carrot-admin-${{ github.run_id }}-production
+          path: build/artifact.zip

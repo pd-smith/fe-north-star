@@ -39,7 +39,7 @@ jobs:
           run_id: ${{github.event.deployment.payload.runId}}
 
       - name: unzip
-        run: unzip carrot-admin-${{github.event.deployment.payload.runId}}/artifact_${{github.event.deployment.environment}}.zip -d ./build
+        run: unzip carrot-admin-${{github.event.deployment.payload.runId}}-${{github.event.deployment.environment}}/artifact.zip -d ./build
 
       - name: Deploy to S3
         working-directory: toolshed
