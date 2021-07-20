@@ -49,14 +49,6 @@ jobs:
         run: zip -r artifact_production.zip *
         working-directory: build
 
-
-      - name: Update version.json version
-        uses: jossef/action-set-json-field@v1
-        with:
-          file: build/version.json
-          field: version
-          value: ${{ github.run_number }}
-
       - name: Publish carrot-admin stage package
         uses: actions/upload-artifact@v2
         with:
