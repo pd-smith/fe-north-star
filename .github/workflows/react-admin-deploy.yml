@@ -1,0 +1,60 @@
+name: Carrot-admin Deploy
+
+on: ['deployment']
+
+jobs:
+  deployment:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - name: 'Deployment pending'
+        uses: 'deliverybot/deployment-status@master'
+        with:
+          state: 'pending'
+          token: '${{ github.token }}'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.8'
+          check-latest: false
+
+      - name: Checkout Toolshed
+        uses: actions/checkout@v2
+        with:
+          repository: carrotfertility/toolshed
+          ref: master
+          path: toolshed
+          token: ${{ github.event.deployment.payload.accessToken }}
+
+      - name: Install toolshed
+        working-directory: toolshed
+        run: npm ci
+
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: carrot-admin-build.yml
+          run_id: ${{github.event.deployment.payload.runId}}
+
+      - name: unzip
+        run: unzip carrot-admin-${{github.event.deployment.payload.runId}}/artifact_${{github.event.deployment.environment}}.zip -d ./build
+
+      - name: Deploy to S3
+        working-directory: toolshed
+        run: node src/index.js s3deploy ${{github.event.deployment.environment}} --noConfirm --accessKey ${{ github.event.deployment.payload.accessKey}} --secretKey ${{ github.event.deployment.payload.secretKey }} --buildDir "../build"
+
+      - name: 'Deployment success'
+        if: success()
+        uses: 'deliverybot/deployment-status@master'
+        with:
+          state: 'success'
+          token: '${{ github.token }}'
+
+      - name: 'Deployment failure'
+        if: failure()
+        uses: 'deliverybot/deployment-status@master'
+        with:
+          state: 'failure'
+          token: '${{ github.token }}'

@@ -1,0 +1,70 @@
+name: Carrot-admin Build
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.8'
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@carrotfertility'
+      - name: Cache NPM Packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node5-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node5-
+      - name: Setup .npmrc
+        run: envsubst < .npmrc_ci > .npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Install dependencies
+        run: npm install --prefer-offline --no-audit
+          
+      - name: Create release build stage
+        env:
+          CI: ""
+        run: ENVIRONMENT=stage npm run build
+
+      - name: Zip deployment stage package
+        run: zip -r artifact_stage.zip *
+        working-directory: build
+          
+      - name: Create release build production
+        env:
+          CI: ""
+        run: ENVIRONMENT=production npm run build
+
+      - name: Zip deployment production package
+        run: zip -r artifact_production.zip *
+        working-directory: build
+
+
+      - name: Update version.json version
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: build/version.json
+          field: version
+          value: ${{ github.run_number }}
+
+      - name: Publish carrot-admin stage package
+        uses: actions/upload-artifact@v2
+        with:
+          name: carrot-admin-${{ github.run_id }}
+          path: build/artifact_stage.zip
+
+      - name: Publish carrot-admin production package
+        uses: actions/upload-artifact@v2
+        with:
+          name: carrot-admin-${{ github.run_id }}
+          path: build/artifact_production.zip

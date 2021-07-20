@@ -1,9 +1,12 @@
 import * as Sentry from "@sentry/browser";
-import Settings from "./CarrotConfig";
+import getConfig from "next/config";
+const {
+  publicRuntimeConfig: { SENTRY_URL },
+} = getConfig();
 
 const initializeErrorReporting = () =>
   Sentry.init({
-    dsn: Settings.SENTRY_URL,
+    dsn: SENTRY_URL,
     beforeSend(event) {
       // Group together certain errors by adding a fingerprint to the Sentry data.
       // https://blog.sentry.io/2018/01/18/setting-up-custom-fingerprints

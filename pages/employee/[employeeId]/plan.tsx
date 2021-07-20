@@ -3,10 +3,13 @@ import CarrotClient from "../../../lib/carrot-api";
 import { HttpErrors } from "../../../utils/HttpErrors";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import getConfig from "next/config";
+const {
+  publicRuntimeConfig: { CARROT_BACKEND_URL, CARROT_BACKEND_ADMIN_URL },
+} = getConfig();
 
-const CARROT_BACKEND_URL = "https://localhost:5001";
 const client = new CarrotClient(CARROT_BACKEND_URL);
-const ADMIN_HOME = "https://localhost:5001/Admin";
+const ADMIN_HOME = CARROT_BACKEND_ADMIN_URL;
 
 const InfoBox = styled.div`
   margin: 24px 0;

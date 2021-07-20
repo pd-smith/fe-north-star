@@ -1,4 +1,4 @@
-import Helpers from "utils/Helpers";
+import Helpers from "./Helpers";
 
 const CarrotErrorCodes = {
   NOT_AUTHENTICATED: "NOT_AUTHENTICATED",

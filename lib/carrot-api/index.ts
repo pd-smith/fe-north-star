@@ -1,6 +1,7 @@
 import Helpers from "../../utils/Helpers";
 import { fetchWrapper } from "../FetchWrapper/FetchWrapper";
 import { HttpErrors } from "../../utils/HttpErrors";
+import { CarrotErrorCodes } from "../../utils/CarrotErrors";
 
 const CarrotClient = function (baseUrl) {
   this.baseUrl = baseUrl;
