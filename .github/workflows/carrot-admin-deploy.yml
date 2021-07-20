@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: carrotfertility/toolshed
-          ref: master
+          ref: main
           path: toolshed
           token: ${{ github.event.deployment.payload.accessToken }}
 
