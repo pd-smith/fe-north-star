@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: carrot-admin-${{ github.run_id }}-stage
-          path: build/artifact.zip
+          path: out/artifact.zip
           
       - name: Create release build production
         env:
@@ -59,4 +59,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: carrot-admin-${{ github.run_id }}-production
-          path: build/artifact.zip
+          path: out/artifact.zip
