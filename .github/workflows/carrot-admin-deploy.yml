@@ -43,7 +43,7 @@ jobs:
 
       - name: Deploy to S3
         working-directory: toolshed
-        run: node src/index.js s3deploy adminv2 to ${{github.event.deployment.environment}} --noConfirm --accessKey ${{ github.event.deployment.payload.accessKey}} --secretKey ${{ github.event.deployment.payload.secretKey }} --buildDir "../build"
+        run: node src/index.js s3deploy adminV2 to ${{github.event.deployment.environment}} --noConfirm --accessKey ${{ github.event.deployment.payload.accessKey}} --secretKey ${{ github.event.deployment.payload.secretKey }} --buildDir "../build"
 
       - name: 'Deployment success'
         if: success()
