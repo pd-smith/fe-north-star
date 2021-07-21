@@ -36,6 +36,13 @@ jobs:
           CI: ""
         run: ENVIRONMENT=stage npm run build
 
+      - name: Update version.json version
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: out/version.json
+          field: version
+          value: ${{ github.run_number }}
+
       - name: Zip deployment stage package
         run: zip -r artifact.zip *
         working-directory: out
@@ -50,6 +57,13 @@ jobs:
         env:
           CI: ""
         run: ENVIRONMENT=production npm run build
+
+      - name: Update version.json version
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: out/version.json
+          field: version
+          value: ${{ github.run_number }}
 
       - name: Zip deployment production package
         run: zip -r artifact.zip *
