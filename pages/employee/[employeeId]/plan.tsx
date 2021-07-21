@@ -30,6 +30,12 @@ const Button = styled.button`
   background-color: #e0e0e0;
 `;
 
+const DraftText = styled.h1`
+  font-weight: bold;
+  font-size: 35px;
+  color: red;
+`;
+
 export default function Plans(): JSX.Element {
   const router = useRouter();
   const { employeeId } = router.query;
@@ -117,6 +123,9 @@ export default function Plans(): JSX.Element {
   };
   return (
     <div>
+      <DraftText>
+        THIS IS A DRAFT PAGE, PLEASE DO NOT TAKE ANY ACTIONS IN HERE
+      </DraftText>
       {employee ? (
         <div>
           <Button onClick={gotoEdit}>Back to edit</Button>
