@@ -1,0 +1,9 @@
+tag-template: $NEXT_MINOR_VERSION
+name-template: $NEXT_MINOR_VERSION
+template: |
+  ## Description
+  {{Replace this with a company-readable description of the release. Make it so someone with no context understands what it is and why it's important. Screenshots are helpful, especially with front end}}
+
+
+  ## Pull requests
+  $CHANGES
